@@ -1,0 +1,85 @@
+// SCSS styles for the skills component
+$primary-color: #6f52ed;
+$retry-color: #ffcccc;
+$button-color: #ffffff;
+$border-color: #e0e0e0;
+
+  .skills-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    margin-top: 20px;
+  }
+  
+  .skill-info{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .skill-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    width:80%;
+  
+    &.retry {
+      background-color: $retry-color;
+    }
+  }
+  
+  .skill-name {
+    font-weight: bold;
+  }
+  
+  .skill-roles {
+    color: gray;
+    padding-top: 8px;
+  }
+  
+  .button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  
+    &.add {
+      background-color: $primary-color;
+      color: $button-color;
+    }
+  
+    &.retry {
+      background-color: red;
+      color: $button-color;
+    }
+  }
+  
+  // SCSS for the sidebar and user list
+  .sidebar {
+    background-color: #f5f5f5;
+    padding: 20px;
+    width: 200px;
+  }
+  
+  .user-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  
+    .user-item {
+      padding: 10px;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #e0e0e0;
+      }
+  
+      &.selected {
+        background-color: $primary-color;
+        color: $button-color;
+      }
+    }
+  }

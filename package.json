@@ -1,0 +1,24 @@
+{
+  "name": "zomato",
+  "version": "1.0.0",
+  "description": "A Dummy food delivery App built on React",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "author": "Prathima shenoy",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "parcel": "^2.12.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.23.1"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.12.0",
+    "buffer": "^6.0.3",
+    "process": "^0.11.10"
+  }
+}

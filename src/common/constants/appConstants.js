@@ -1,0 +1,2 @@
+export const LOGO_URL="https://appsdatamedia.wordpress.com/wp-content/uploads/2020/04/swiggy-png-logo-1024x1024-1.png?w=1008";
+export const CDN_URL="https://appsdatamedia.wordpress.com/wp-content/uploads/2020/04/swiggy-png-logo-1024x1024-1.png?w=1008";

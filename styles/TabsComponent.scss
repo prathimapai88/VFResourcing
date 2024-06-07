@@ -1,0 +1,21 @@
+.tabs-container {
+    display: flex;
+    margin-top: 40px;
+    button {
+        background-color: #F3F4F6;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-size: 18px;
+        margin-right: 10px;
+        cursor: pointer;
+        color:#4D5562;
+    }
+    button.active {
+      color: #7c3bed;
+    }
+    button:hover {
+      background-color: #d0d0d0;
+    }
+  }
+  

@@ -1,0 +1,19 @@
+
+
+body{
+  font-family: sans-serif;
+  font-size: 18px;
+  height: 100%;
+  overflow: hidden; /* Prevent scrolling on the body */
+  a {
+    text-decoration: none;
+    &:active{
+      color:black;
+    }
+  }
+  .display-flex{
+    display: flex;
+    align-items: center;
+  }
+}
+
