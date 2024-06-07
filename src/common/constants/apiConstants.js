@@ -1,3 +1,4 @@
-export const API_URL = "http://localhost:4000/resources";
-export const SKILLS_API_URL = "http://localhost:4000/skills";
+let baseURL=`http://localhost:4000`;
+export const RESOURCES_URL = `${baseURL}/resources`;
+export const SKILLS_API_URL = `${baseURL}/skills`;
 

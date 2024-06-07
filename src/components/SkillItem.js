@@ -31,16 +31,16 @@ const SkillItem = ({ skill, onRetry, acquiredSkillIds }) => {
   }, [acquiredSkillIds, skill.id]);
 
   return (
-    <div className={`skill-item ${isAcquired ? "activeSkill" : ""}`}>
-      <div className="skill-info">
+    <div className={`skill-item ${isAcquired ? "active-skill" : ""}`}>
+      <div  className="skill-info">
         <span className="skill-name">{skill.name}</span>
-        <span className="skill-roles">
+        <span className={`skill-roles ${isAcquired ? "active-text" : ""}`} >
           Roles: {skill.requiredForRoles.map((role) => role.name).join(", ")}
         </span>
       </div>
 
       {isAcquired ? (
-        <button onClick={addSkill} className="button retry">
+        <button onClick={addSkill} className="button remove">
           Remove
         </button>
       ) : (

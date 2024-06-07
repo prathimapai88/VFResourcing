@@ -16,6 +16,22 @@ $border-color: #e0e0e0;
   flex-direction: column;
 }
 
+
+.label {
+  display: flex;
+  align-items: center;
+
+  input[type="checkbox"] {
+    accent-color: green;
+    margin-right: 8px;
+  }
+
+  .label-text {
+    margin-left: 8px;
+  }
+}
+
+
 .skill-item {
   display: flex;
   justify-content: space-between;
@@ -31,13 +47,18 @@ $border-color: #e0e0e0;
   }
   
 }
-.activeSkill {
+.active-skill {
   background-color: #f3f4f6;
   border: none;
   color: var(--primary-color);
 }
 
+.active-text{
+  color: var(--primary-color) !important;
+}
+
 .skill-roles {
+  font-size: 16px;
   color: gray;
   padding-top: 8px;
 }
@@ -49,13 +70,13 @@ $border-color: #e0e0e0;
   cursor: pointer;
 
   &.add {
-    background-color: $primary-color;
-    color: $button-color;
+    background-color: #fff;
+    color: black;
   }
 
-  &.retry {
-    background-color: red;
-    color: $button-color;
+  &.remove {
+    background-color: #f3f4f6;
+    color: var(--primary-color);
   }
 }
 

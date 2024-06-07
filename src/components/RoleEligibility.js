@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useAPI from "../common/utils/useAPI";
-import { API_URL } from "../common/constants/apiConstants";
+import { RESOURCES_URL } from "../common/constants/apiConstants";
 
 function RoleEligibility({ details, setAcquiredSkillIds }) {
   const { id } = useParams();
@@ -9,7 +9,7 @@ function RoleEligibility({ details, setAcquiredSkillIds }) {
     data: eligibility,
     loading,
     error,
-  } = useAPI(API_URL + `/${id}/role-eligibility`);
+  } = useAPI(RESOURCES_URL + `/${id}/role-eligibility`);
   const [skillCounts, setSkillCounts] = useState([]);
   const [totalEligibility, setTotalEligibility] = useState(0);
 
@@ -45,7 +45,7 @@ function RoleEligibility({ details, setAcquiredSkillIds }) {
       {eligibility.map((role, index) => (
         <div key={role.id} className={skillCounts[index] && skillCounts[index].acquiredCount > 0 ? 'role-eligibility-item eligible' : 'role-eligibility-item'}>
           <div>{role.name}</div>
-          <div>
+          <div className="acquired-additional-info">
             {skillCounts[index] && skillCounts[index].acquiredCount} of {role.skillsRequired.length} Required skills
           </div>
         </div>

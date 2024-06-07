@@ -1,21 +1,19 @@
 import { Link } from "react-router-dom";
 import Shimmer from './Shimmer';
 import useAPI from "../common/utils/useAPI";
-import { API_URL } from "./../common/constants/apiConstants";
+import { RESOURCES_URL } from "./../common/constants/apiConstants";
 import './../../styles/SideNav.scss';
 import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 
 const SideNav = () => {
-  const { data: userData, loading, error } = useAPI(API_URL);
+  const { data: userData, loading, error } = useAPI(RESOURCES_URL);
   const sortedUserData = userData?.slice().sort((a, b) => a.name.localeCompare(b.name));
   const [selectedUserId, setSelectedUserId] = useState(null);
   const { id } = useParams();
 
   useEffect(() => {
-    if (id) {
       setSelectedUserId(id);
-    }
   }, [id]);
 
 

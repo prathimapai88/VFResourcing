@@ -13,9 +13,17 @@
     }
     button.active {
       color: #7c3bed;
+      background: var(--highlight-background-color);
     }
     button:hover {
       background-color: #d0d0d0;
+    }
+  }
+
+  .tab-layout{
+    padding-left: 68px;
+    .tab-content{
+      padding-top: 40px;
     }
   }
   

@@ -10,7 +10,7 @@ const TabComponent = ({ details }) => {
   const [acquiredSkillIds, setAcquiredSkillIds] = useState([]);
 
   return (
-    <div>
+    <div className="tab-layout">
       <div className="tabs-container">
         <button
           className={activeTab === 'tab1' ? 'active' : ''}

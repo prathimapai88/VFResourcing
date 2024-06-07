@@ -35,7 +35,7 @@ const appRouter=createBrowserRouter([
         errorElement:<ErrorComponent/>,
       },
       {
-        path: "/userDetails/:id", // Dynamic route for user details
+        path: "/userDetails/:id", // Dynamic route that navigates to speficic user Details
         element: <UserDetails/>,
         errorElement:<ErrorComponent/>,
       }

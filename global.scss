@@ -1,20 +1,25 @@
-
-
 body{
   font-family: sans-serif;
   font-size: 18px;
   height: 100%;
-  overflow: hidden; /* Prevent scrolling on the body */
+  overflow: hidden; 
   a {
     text-decoration: none;
     color: var(--body-text-color);
     &:active{
-      color:black;
+      color:var(--body-text-color);
     }
   }
   .display-flex{
     display: flex;
     align-items: center;
+  }
+  button{
+    border: none;
+    background-color: var(--primary-color);
+    padding: 12px;
+    font-size: 16px;
+    color: var(--text-color-secondary);
   }
 }
 
