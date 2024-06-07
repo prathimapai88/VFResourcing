@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { SKILLS_API_URL } from "./../common/constants/apiConstants";
 import useAPI from "../common/utils/useAPI";
 import SkillItem from "./SkillItem";
-
+import './../../styles/Skill.scss'; // Import the SCSS file
 
 function Skill({ acquiredSkillIds }) {
   const { data: skills, loading, error } = useAPI(SKILLS_API_URL);
@@ -10,10 +10,11 @@ function Skill({ acquiredSkillIds }) {
   const [filteredSkills, setFilteredSkills] = useState([]);
 
   useEffect(() => {
+    let sortedSkills = [...skills].sort((a, b) => a.name.localeCompare(b.name));
     if (showAcquired) {
-      setFilteredSkills(skills.filter(skill => acquiredSkillIds.includes(skill.id)));
+      setFilteredSkills(sortedSkills.filter(skill => acquiredSkillIds.includes(skill.id)));
     } else {
-      setFilteredSkills(skills);
+      setFilteredSkills(sortedSkills);
     }
   }, [showAcquired, skills, acquiredSkillIds]);
 
@@ -27,13 +28,13 @@ function Skill({ acquiredSkillIds }) {
   return (
     <div className="skills-container">
       <div className="filter-options">
-        <label>
+        <label className="label">
           <input
             type="checkbox"
             checked={showAcquired}
             onChange={(e) => setShowAcquired(e.target.checked)}
           />
-          Only show acquired skills
+          <span className="label-text">Only show acquired skills</span>
         </label>
       </div>
       <div className="skills-list">
