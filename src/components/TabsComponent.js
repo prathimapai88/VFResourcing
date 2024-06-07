@@ -5,8 +5,9 @@ import './../../styles/RoleEligibility.scss';
 import './../../styles/Skill.scss';
 import Skill from './../components/Skill';
 
-const TabComponent = ({details}) => {
+const TabComponent = ({ details }) => {
   const [activeTab, setActiveTab] = useState('tab1');
+  const [acquiredSkillIds, setAcquiredSkillIds] = useState([]);
 
   return (
     <div>
@@ -25,8 +26,13 @@ const TabComponent = ({details}) => {
         </button>
       </div>
       <div className="tab-content">
-        {activeTab === 'tab1' && <RoleEligibility details={details}/>}
-        {activeTab === 'tab2' && <Skill />}
+        {activeTab === 'tab1' && (
+          <RoleEligibility
+            details={details}
+            setAcquiredSkillIds={setAcquiredSkillIds}
+          />
+        )}
+        {activeTab === 'tab2' && <Skill acquiredSkillIds={acquiredSkillIds} />}
       </div>
     </div>
   );

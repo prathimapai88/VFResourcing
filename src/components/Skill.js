@@ -1,147 +1,51 @@
-import React from "react";
-import { useState, useEffect } from "react";
-const skillsData = [
-  {
-    id: 1,
-    name: "AWS",
-    requiredForRoles: [
-      {
-        id: 3,
-        name: "Devops Engineer",
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: "SQL",
-    requiredForRoles: [
-      {
-        id: 2,
-        name: "Backend Developer",
-      },
-      {
-        id: 3,
-        name: "Devops Engineer",
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: "JavaScript",
-    requiredForRoles: [
-      {
-        id: 1,
-        name: "Frontend Developer",
-      },
-    ],
-  },
-  {
-    id: 4,
-    name: "TypeScript",
-    requiredForRoles: [
-      {
-        id: 1,
-        name: "Frontend Developer",
-      },
-    ],
-  },
-  {
-    id: 6,
-    name: "Azure",
-    requiredForRoles: [
-      {
-        id: 3,
-        name: "Devops Engineer",
-      },
-    ],
-  },
-  {
-    id: 7,
-    name: "Node",
-    requiredForRoles: [
-      {
-        id: 1,
-        name: "Frontend Developer",
-      },
-    ],
-  },
-  {
-    id: 8,
-    name: "Python",
-    requiredForRoles: [
-      {
-        id: 3,
-        name: "Devops Engineer",
-      },
-    ],
-  },
-  {
-    id: 9,
-    name: ".NET",
-    requiredForRoles: [
-      {
-        id: 2,
-        name: "Backend Developer",
-      },
-    ],
-  },
-  {
-    id: 5,
-    name: "React",
-    requiredForRoles: [
-      {
-        id: 1,
-        name: "Frontend Developer",
-      },
-    ],
-  },
-  {
-    id: 10,
-    name: "First Aid At Work",
-    requiredForRoles: [],
-  },
-];
+import React, { useState, useEffect } from "react";
+import { SKILLS_API_URL } from "./../common/constants/apiConstants";
+import useAPI from "../common/utils/useAPI";
+import SkillItem from "./SkillItem";
 
-const SkillItem = ({ skill, onRetry }) => {
-  const [hasError, setHasError] = useState(skill.name === "React");
 
-  const handleRetry = () => {
-    setHasError(false);
-    onRetry(skill.id);
-  };
+function Skill({ acquiredSkillIds }) {
+  const { data: skills, loading, error } = useAPI(SKILLS_API_URL);
+  const [showAcquired, setShowAcquired] = useState(false);
+  const [filteredSkills, setFilteredSkills] = useState([]);
 
-  return (
-    <div className={`skill-item ${hasError ? "retry" : ""}`}>
-      <div className="skill-info">
-        <span className="skill-name">{skill.name}</span>
-        <span className="skill-roles">
-          Roles: {skill.requiredForRoles.map((role) => role.name).join(", ")}
-        </span>
-      </div>
-
-      {hasError ? (
-        <button onClick={handleRetry} className="button retry">
-          Retry
-        </button>
-      ) : (
-        <button className="button add">Add</button>
-      )}
-    </div>
-  );
-};
-
-function Skill() {
-  const [skills, setSkills] = useState(skillsData);
+  useEffect(() => {
+    if (showAcquired) {
+      setFilteredSkills(skills.filter(skill => acquiredSkillIds.includes(skill.id)));
+    } else {
+      setFilteredSkills(skills);
+    }
+  }, [showAcquired, skills, acquiredSkillIds]);
 
   const handleRetry = (id) => {
     console.log(`Retrying skill with id: ${id}`);
   };
 
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
   return (
-    <div className="skills-list">
-      {skills.map((skill) => (
-        <SkillItem key={skill.id} skill={skill} onRetry={handleRetry} />
-      ))}
+    <div className="skills-container">
+      <div className="filter-options">
+        <label>
+          <input
+            type="checkbox"
+            checked={showAcquired}
+            onChange={(e) => setShowAcquired(e.target.checked)}
+          />
+          Only show acquired skills
+        </label>
+      </div>
+      <div className="skills-list">
+        {filteredSkills.map((skill) => (
+          <SkillItem
+            key={skill.id}
+            acquiredSkillIds={acquiredSkillIds}
+            skill={skill}
+            onRetry={handleRetry}
+          />
+        ))}
+      </div>
     </div>
   );
 }
