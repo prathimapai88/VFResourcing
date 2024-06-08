@@ -29,7 +29,7 @@ const SideNav = () => {
           <span className="logo-name">RESOURCING</span>
         </Link>
       </div>
-      {loading && <Shimmer />}
+      {loading && <Shimmer count={6} />}
       {error && <p>Error: {error}</p>}
       {!loading && !error && (
         <ul>
