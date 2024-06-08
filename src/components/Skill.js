@@ -13,7 +13,6 @@ function Skill({ acquiredSkillIds }) {
     const queryParams = new URLSearchParams(window.location.search);
     const initialShowAcquired = queryParams.get("showAcquired") === "true";
     setShowAcquired(initialShowAcquired); // Set initial value of showAcquired
-    console.log('initialShowAcquired',initialShowAcquired);
     let sortedSkills = [...skills].sort((a, b) => a.name.localeCompare(b.name));
     if (initialShowAcquired) {
       setFilteredSkills(

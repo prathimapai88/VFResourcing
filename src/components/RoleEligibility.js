@@ -17,9 +17,11 @@ function RoleEligibility({ details, setAcquiredSkillIds }) {
     if (eligibility) {
       let roleEligibilityCount = 0;
       const counts = eligibility.map((role) => {
-        const acquiredSkills = role.skillsRequired.filter((skill) => skill.hasSkill);
+        const acquiredSkills = role.skillsRequired.filter(
+          (skill) => skill.hasSkill
+        );
         const acquiredCount = acquiredSkills.length;
-        if (acquiredCount > 0) {
+        if (acquiredCount === role.skillsRequired.length) {
           roleEligibilityCount += 1;
           setTotalEligibility(roleEligibilityCount);
         }
@@ -27,8 +29,8 @@ function RoleEligibility({ details, setAcquiredSkillIds }) {
       });
 
       // Collect all acquired skill IDs
-      const allAcquiredSkillIds = counts.flatMap(role => 
-        role.acquiredSkills.map(skill => skill.id)
+      const allAcquiredSkillIds = counts.flatMap((role) =>
+        role.acquiredSkills.map((skill) => skill.id)
       );
       setAcquiredSkillIds(allAcquiredSkillIds);
 
@@ -41,12 +43,25 @@ function RoleEligibility({ details, setAcquiredSkillIds }) {
 
   return (
     <div className="role-eligibility-container">
-      <div className="eligibility-info">{details.name} is eligible for {totalEligibility} roles</div>
+      <div className="eligibility-info">
+        {details.name} is eligible for {totalEligibility}{" "}
+        {totalEligibility === 1 ? "role" : "roles"}
+      </div>
+
       {eligibility.map((role, index) => (
-        <div key={role.id} className={skillCounts[index] && skillCounts[index].acquiredCount > 0 ? 'role-eligibility-item eligible' : 'role-eligibility-item'}>
+        <div
+          key={role.id}
+          className={
+            skillCounts[index] &&
+            skillCounts[index].acquiredCount === role.skillsRequired.length
+              ? "role-eligibility-item eligible"
+              : "role-eligibility-item"
+          }
+        >
           <div>{role.name}</div>
           <div className="acquired-additional-info">
-            {skillCounts[index] && skillCounts[index].acquiredCount} of {role.skillsRequired.length} Required skills
+            {skillCounts[index] && skillCounts[index].acquiredCount} of{" "}
+            {role.skillsRequired.length} Required skills
           </div>
         </div>
       ))}
