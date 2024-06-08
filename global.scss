@@ -21,5 +21,10 @@ body{
     font-size: 16px;
     color: var(--text-color-secondary);
   }
+  .error {
+    border: none;
+    background-color: #FFDEDE !important;
+    color: var(--error-text) !important;
+  }
 }
 

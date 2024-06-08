@@ -3,16 +3,14 @@ import { useParams } from "react-router-dom";
 import axios from 'axios';
 
 const SkillItem = ({ skill, onRetry, acquiredSkillIds }) => {
-  const [hasError, setHasError] = useState();
+  const [hasError, setHasError] = useState(false);
   const [isAcquired, setIsAcquired] = useState(false);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
 
- 
-
   const handleRetry = () => {
     setHasError(false);
-    onRetry(skill.id);
+    removeSkill();
   };
 
   const addSkill = async () => {
@@ -26,6 +24,7 @@ const SkillItem = ({ skill, onRetry, acquiredSkillIds }) => {
       }
     } catch (error) {
       console.error("Error adding skill:", error);
+      setHasError(true);
     } finally {
       setLoading(false);
     }
@@ -39,7 +38,8 @@ const SkillItem = ({ skill, onRetry, acquiredSkillIds }) => {
         setIsAcquired(false);
       }
     } catch (error) {
-      console.error("Error adding skill:", error);
+      console.error("Error removing skill:", error);
+      setHasError(true);
     } finally {
       setLoading(false);
     }
@@ -51,22 +51,30 @@ const SkillItem = ({ skill, onRetry, acquiredSkillIds }) => {
   }, [acquiredSkillIds, skill.id]);
 
   return (
-    <div className={`skill-item ${isAcquired ? "active-skill" : ""}`}>
+    <div className={`skill-item ${isAcquired ? "active-skill" : ""} ${hasError ? "error" : ""}`}>
       <div className="skill-info">
         <span className="skill-name">{skill.name}</span>
-        <span className={`skill-roles ${isAcquired ? "active-text" : ""}`}>
+        <span className={`skill-roles ${isAcquired ? "active-text" : ""}  ${hasError ? "error" : ""}`} >
           Roles: {skill.requiredForRoles.map((role) => role.name).join(", ")}
         </span>
       </div>
 
-      {isAcquired ? (
-        <button onClick={removeSkill} className="button remove">
-          {loading ? <span className="inprogress-spinner"></span> : "Remove"}
+      {hasError ? (
+        <button onClick={handleRetry} className="button retry">
+          Retry
         </button>
       ) : (
-        <button onClick={addSkill} className="button add">
-          {loading ? <span className="inprogress-spinner"></span> : "Add"}
-        </button>
+        <>
+          {isAcquired ? (
+            <button onClick={removeSkill} className="button remove">
+              {loading ? <span className="inprogress-spinner"></span> : "Remove"}
+            </button>
+          ) : (
+            <button onClick={addSkill} className="button add">
+              {loading ? <span className="inprogress-spinner"></span> : "Add"}
+            </button>
+          )}
+        </>
       )}
     </div>
   );

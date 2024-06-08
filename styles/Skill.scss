@@ -17,6 +17,7 @@ $border-color: #e0e0e0;
 }
 
 
+
 .label {
   display: flex;
   align-items: center;
@@ -42,9 +43,7 @@ $border-color: #e0e0e0;
   margin-bottom: 10px;
   width: 80%;
 
-  &.retry {
-    background-color: $retry-color;
-  }
+  
   
 }
 .active-skill {
@@ -52,6 +51,9 @@ $border-color: #e0e0e0;
   border: none;
   color: var(--primary-color);
 }
+
+
+
 
 .active-text{
   color: var(--primary-color) !important;
@@ -77,6 +79,11 @@ $border-color: #e0e0e0;
   &.remove {
     background-color: #f3f4f6;
     color: var(--primary-color);
+  }
+   
+  &.retry {
+    background-color: var(--error-background-color);
+    color: var(--error-text);
   }
 }
 
@@ -107,9 +114,7 @@ $border-color: #e0e0e0;
   }
 }
 
-.skill-item.error {
-  border: 1px solid red;
-}
+
 
 .inprogress-spinner {
   border: 2px solid rgba(0, 0, 0, 0.1);
