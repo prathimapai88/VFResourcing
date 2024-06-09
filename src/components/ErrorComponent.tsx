@@ -2,8 +2,14 @@ import React from 'react';
 import { useRouteError, Link } from 'react-router-dom';
 import './../../styles/Error.scss';
 
-const ErrorComponent = () => {
-  const err = useRouteError();
+interface RouteError {
+  status?: number;
+  statusText?: string;
+}
+
+const ErrorComponent: React.FC = () => {
+  const error = useRouteError() as RouteError;
+
   return (
     <div className="error-container">
       <svg
@@ -22,7 +28,7 @@ const ErrorComponent = () => {
       <div className="error-message">
         <h2>Oops!!! Something went wrong</h2>
         <p>
-          Error {err.status}: {err.statusText}
+          Error {error?.status}: {error?.statusText}
         </p>
         <Link to="/">
           <button>Home</button>

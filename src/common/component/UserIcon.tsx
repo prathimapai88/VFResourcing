@@ -1,6 +1,14 @@
-const UserIcon = ({ details }) => {
-  
-  const getInitials = (name) => {
+import React from 'react';
+
+interface UserIconProps {
+  details: {
+    name: string;
+  };
+}
+
+const UserIcon: React.FC<UserIconProps> = ({ details }) => {
+
+  const getInitials = (name: string): string => {
     const [firstName, lastName] = name.split(" ");
     return `${firstName.charAt(0)}${lastName.charAt(0)}`;
   };
