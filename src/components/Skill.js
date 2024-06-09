@@ -4,8 +4,9 @@ import useAPI from "../common/utils/useAPI";
 import SkillItem from "./SkillItem";
 import "./../../styles/Skill.scss"; 
 
-function Skill({ acquiredSkillIds }) {
+function Skill(props) {
   const { data: skills, loading, error } = useAPI(SKILLS_API_URL);
+  const [acquiredSkillIds, setAcquiredSkillIds] = useState(props.acquiredSkillIds);
   const [showAcquired, setShowAcquired] = useState(false);
   const [filteredSkills, setFilteredSkills] = useState([]);
 
@@ -42,6 +43,12 @@ function Skill({ acquiredSkillIds }) {
     console.log(`Retrying skill with id: ${id}`);
   };
 
+  const handleUpdate = (id, acquired) => {
+    setAcquiredSkillIds(prevState => 
+      acquired ? [...prevState, id] : prevState.filter(skillId => skillId !== id)
+    );
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
@@ -58,14 +65,19 @@ function Skill({ acquiredSkillIds }) {
         </label>
       </div>
       <div className="skills-list">
-        {filteredSkills.map((skill) => (
-          <SkillItem
-            key={skill.id}
-            acquiredSkillIds={acquiredSkillIds}
-            skill={skill}
-            onRetry={handleRetry}
-          />
-        ))}
+      {filteredSkills.length > 0 ? (
+          filteredSkills.map((skill) => (
+            <SkillItem
+              key={skill.id}
+              acquiredSkillIds={acquiredSkillIds}
+              skill={skill}
+              onRetry={handleRetry}
+              onUpdate={handleUpdate}  // Pass the update handler
+            />
+          ))
+        ) : (
+          <div className="no-records">No Acquired Skills Available</div>
+        )}
       </div>
     </div>
   );

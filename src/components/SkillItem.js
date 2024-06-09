@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 
-const SkillItem = ({ skill, onRetry, acquiredSkillIds }) => {
+const SkillItem = ({ skill, onRetry, acquiredSkillIds, onUpdate }) => {
   const [hasError, setHasError] = useState(false);
   const [isAcquired, setIsAcquired] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -13,6 +13,8 @@ const SkillItem = ({ skill, onRetry, acquiredSkillIds }) => {
     removeSkill();
   };
 
+  console.log('acquiredSkillIds',acquiredSkillIds);
+
   const addSkill = async () => {
     setLoading(true);
     try {
@@ -21,9 +23,9 @@ const SkillItem = ({ skill, onRetry, acquiredSkillIds }) => {
       });
       if (response.status === 200) {
         setIsAcquired(true);
+        onUpdate(skill.id, true);  // Notify parent of addition
       }
     } catch (error) {
-      console.error("Error adding skill:", error);
       setHasError(true);
     } finally {
       setLoading(false);
@@ -36,9 +38,9 @@ const SkillItem = ({ skill, onRetry, acquiredSkillIds }) => {
       const response = await axios.delete(`http://localhost:4000/resources/${id}/skill/${skill.id}`);
       if (response.status === 200) {
         setIsAcquired(false);
+        onUpdate(skill.id, false);  // Notify parent of removal
       }
     } catch (error) {
-      console.error("Error removing skill:", error);
       setHasError(true);
     } finally {
       setLoading(false);
@@ -54,7 +56,7 @@ const SkillItem = ({ skill, onRetry, acquiredSkillIds }) => {
     <div className={`skill-item ${isAcquired ? "active-skill" : ""} ${hasError ? "error" : ""}`}>
       <div className="skill-info">
         <span className="skill-name">{skill.name}</span>
-        <span className={`skill-roles ${isAcquired ? "active-text" : ""}  ${hasError ? "error" : ""}`} >
+        <span className={`skill-roles ${isAcquired ? "active-text" : ""}  ${hasError ? "error" : ""}`}>
           Roles: {skill.requiredForRoles.map((role) => role.name).join(", ")}
         </span>
       </div>
