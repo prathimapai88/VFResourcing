@@ -3,15 +3,20 @@ import './../../styles/TabsComponent.scss';
 import RoleEligibility from './RoleEligibility';
 import './../../styles/RoleEligibility.scss';
 import './../../styles/Skill.scss';
-import Skill from './../components/Skill';
+import Skill from './Skill';
 
-const TabComponent = ({ details ,id }) => {
-  const [activeTab, setActiveTab] = useState('tab1');
-  const [acquiredSkillIds, setAcquiredSkillIds] = useState([]);
+interface TabComponentProps {
+  details: object; 
+  id: string; 
+}
 
-  useEffect(()=>{
+const TabComponent: React.FC<TabComponentProps> = ({ details, id }) => {
+  const [activeTab, setActiveTab] = useState<string>('tab1');
+  const [acquiredSkillIds, setAcquiredSkillIds] = useState<number[]>([]);
+
+  useEffect(() => {
     setActiveTab('tab1');
-  },[id]);
+  }, [id]);
 
   return (
     <div className="tab-layout">
