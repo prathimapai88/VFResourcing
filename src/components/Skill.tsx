@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { SKILLS_API_URL } from "./../common/constants/apiConstants";
+import { SKILLS_API_URL } from "../common/constants/apiConstants";
 import useAPI from "../common/utils/useAPI";
 import SkillItem from "./SkillItem";
 import "./../../styles/Skill.scss";
 
-function Skill(props) {
+interface SkillProps {
+  acquiredSkillIds: string[]; // Adjust the type according to your actual data type
+}
+
+function Skill(props: SkillProps) {
   const { data: skills, loading, error } = useAPI(SKILLS_API_URL);
-  const [acquiredSkillIds, setAcquiredSkillIds] = useState(
+  const [acquiredSkillIds, setAcquiredSkillIds] = useState<string[]>(
     props.acquiredSkillIds
   );
-  const [showAcquired, setShowAcquired] = useState(false);
-  const [filteredSkills, setFilteredSkills] = useState([]);
+  const [showAcquired, setShowAcquired] = useState<boolean>(false);
+  const [filteredSkills, setFilteredSkills] = useState<any[]>([]); // Adjust the type according to your actual data type
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -28,7 +32,7 @@ function Skill(props) {
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
-    queryParams.set("showAcquired", showAcquired);
+    queryParams.set("showAcquired", showAcquired.toString());
     const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
     window.history.replaceState(null, "", newUrl);
     let sortedSkills = [...skills].sort((a, b) => a.name.localeCompare(b.name));
@@ -41,9 +45,7 @@ function Skill(props) {
     }
   }, [showAcquired]); // Update URL only when showAcquired changes
 
- 
-
-  const handleUpdate = (id, acquired) => {
+  const handleUpdate = (id: string, acquired: boolean) => {
     setAcquiredSkillIds((prevState) =>
       acquired
         ? [...prevState, id]
@@ -52,7 +54,6 @@ function Skill(props) {
   };
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div className="skills-container">
@@ -68,7 +69,6 @@ function Skill(props) {
               }
             }}
           />
-
           <span className="label-text">Only show acquired skills</span>
         </label>
       </div>
@@ -80,7 +80,7 @@ function Skill(props) {
               acquiredSkillIds={acquiredSkillIds}
               skill={skill}
               onUpdate={handleUpdate} // Pass the update handler
-            />
+              onRetry={undefined}            />
           ))
         ) : (
           <div className="no-records">No Acquired Skills Available</div>
