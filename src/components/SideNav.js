@@ -1,10 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Shimmer from './Shimmer';
 import useAPI from "../common/utils/useAPI";
 import { RESOURCES_URL } from "./../common/constants/apiConstants";
 import './../../styles/SideNav.scss';
 import { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
 
 const SideNav = () => {
   const { data: userData, loading, error } = useAPI(RESOURCES_URL);
@@ -15,7 +14,6 @@ const SideNav = () => {
   useEffect(() => {
       setSelectedUserId(id);
   }, [id]);
-
 
   const handleUserClick = (id) => {
     setSelectedUserId(id);
@@ -35,7 +33,9 @@ const SideNav = () => {
         <ul>
           {sortedUserData?.map(user => (
             <li className={user.id === selectedUserId ? 'active' : ''} key={user.id}>
-              <Link onClick={() => handleUserClick(user.id)} to={`/userDetails/${user.id}`}>{user.name}</Link>
+              <Link onClick={() => handleUserClick(user.id)} to={`/userDetails/${user.id}`}>
+                {user.name}
+              </Link>
             </li>
           ))}
         </ul>
