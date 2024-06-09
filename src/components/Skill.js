@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { SKILLS_API_URL } from "./../common/constants/apiConstants";
 import useAPI from "../common/utils/useAPI";
 import SkillItem from "./SkillItem";
-import "./../../styles/Skill.scss"; 
+import "./../../styles/Skill.scss";
 
 function Skill(props) {
   const { data: skills, loading, error } = useAPI(SKILLS_API_URL);
-  const [acquiredSkillIds, setAcquiredSkillIds] = useState(props.acquiredSkillIds);
+  const [acquiredSkillIds, setAcquiredSkillIds] = useState(
+    props.acquiredSkillIds
+  );
   const [showAcquired, setShowAcquired] = useState(false);
   const [filteredSkills, setFilteredSkills] = useState([]);
 
@@ -22,7 +24,7 @@ function Skill(props) {
     } else {
       setFilteredSkills(sortedSkills);
     }
-  }, [skills, acquiredSkillIds]); // Remove showAcquired dependency to avoid infinite loop
+  }, [skills, acquiredSkillIds]); 
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -39,13 +41,13 @@ function Skill(props) {
     }
   }, [showAcquired]); // Update URL only when showAcquired changes
 
-  const handleRetry = (id) => {
-    console.log(`Retrying skill with id: ${id}`);
-  };
+ 
 
   const handleUpdate = (id, acquired) => {
-    setAcquiredSkillIds(prevState => 
-      acquired ? [...prevState, id] : prevState.filter(skillId => skillId !== id)
+    setAcquiredSkillIds((prevState) =>
+      acquired
+        ? [...prevState, id]
+        : prevState.filter((skillId) => skillId !== id)
     );
   };
 
@@ -60,19 +62,24 @@ function Skill(props) {
             type="checkbox"
             checked={showAcquired}
             onChange={(e) => setShowAcquired(e.target.checked)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setShowAcquired(!showAcquired);
+              }
+            }}
           />
+
           <span className="label-text">Only show acquired skills</span>
         </label>
       </div>
       <div className="skills-list">
-      {filteredSkills.length > 0 ? (
+        {filteredSkills.length > 0 ? (
           filteredSkills.map((skill) => (
             <SkillItem
               key={skill.id}
               acquiredSkillIds={acquiredSkillIds}
               skill={skill}
-              onRetry={handleRetry}
-              onUpdate={handleUpdate}  // Pass the update handler
+              onUpdate={handleUpdate} // Pass the update handler
             />
           ))
         ) : (

@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './../../styles/TabsComponent.scss';
 import RoleEligibility from './RoleEligibility';
 import './../../styles/RoleEligibility.scss';
 import './../../styles/Skill.scss';
 import Skill from './../components/Skill';
 
-const TabComponent = ({ details }) => {
+const TabComponent = ({ details ,id }) => {
   const [activeTab, setActiveTab] = useState('tab1');
   const [acquiredSkillIds, setAcquiredSkillIds] = useState([]);
+
+  useEffect(()=>{
+    setActiveTab('tab1');
+  },[id]);
 
   return (
     <div className="tab-layout">

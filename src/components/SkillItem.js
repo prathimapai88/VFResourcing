@@ -13,7 +13,7 @@ const SkillItem = ({ skill, onRetry, acquiredSkillIds, onUpdate }) => {
     removeSkill();
   };
 
-  console.log('acquiredSkillIds',acquiredSkillIds);
+  
 
   const addSkill = async () => {
     setLoading(true);
@@ -38,7 +38,7 @@ const SkillItem = ({ skill, onRetry, acquiredSkillIds, onUpdate }) => {
       const response = await axios.delete(`http://localhost:4000/resources/${id}/skill/${skill.id}`);
       if (response.status === 200) {
         setIsAcquired(false);
-        onUpdate(skill.id, false);  // Notify parent of removal
+        onUpdate(skill.id, false); 
       }
     } catch (error) {
       setHasError(true);

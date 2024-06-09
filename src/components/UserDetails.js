@@ -18,7 +18,7 @@ const UserDetails = () => {
       {userData ? (
         <div>
            <UserIcon details={userData}/>
-           <TabsComponent details={userData}/>
+           <TabsComponent details={userData} id={id}/>
            
         </div>
       ) : (

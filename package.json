@@ -1,7 +1,7 @@
 {
-  "name": "zomato",
+  "name": "resourcing",
   "version": "1.0.0",
-  "description": "A Dummy food delivery App built on React",
+  "description": "A App which handles resourcing",
   "main": "index.js",
   "scripts": {
     "start": "parcel index.html",
