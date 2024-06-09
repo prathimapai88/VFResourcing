@@ -7,11 +7,12 @@ import Home from "./components/Home";
 import UserDetails from "./components/UserDetails";
 import useOnlineStatus from "./common/utils/useOnlineStatus";
 import './../styles/theme.scss';
+import NoInternetConnection from './common/component/NoInternetConnection'
 
 const AppLayout = () => {
   const onlineStatus=useOnlineStatus();
   if(!onlineStatus){
-    return (<div>Looks Like you are offline</div>)
+    return (<NoInternetConnection/>)
   }
   return (
     <div className="container">

@@ -1,31 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from 'axios';
 import UserIcon from './../common/component/UserIcon';
 import TabsComponent from './TabsComponent';
 import Spinner from './../common/component/Spinner';
+import { RESOURCES_URL } from "./../common/constants/apiConstants";
+import useAPI from "../common/utils/useAPI";
 
 const UserDetails = () => {
   const { id } = useParams();
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    setLoading(true);
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:4000/resources/${id}`);
-        setUserData(response.data);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, [id]);
+  const { data: userData, loading, error } = useAPI(`${RESOURCES_URL}/${id}`);
 
   if (loading) return <Spinner/>;
   if (error) return <p>Error: {error}</p>;
