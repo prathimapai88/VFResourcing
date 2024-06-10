@@ -14,9 +14,20 @@ const TabComponent: React.FC<TabComponentProps> = ({ details, id }) => {
   const [activeTab, setActiveTab] = useState<string>('tab1');
   const [acquiredSkillIds, setAcquiredSkillIds] = useState<number[]>([]);
 
+  // Fetch the active tab value from the browser URL
   useEffect(() => {
-    setActiveTab('tab1');
+    const queryParams = new URLSearchParams(window.location.search);
+    const tabFromUrl = queryParams.get('tab') || 'tab1';
+    setActiveTab(tabFromUrl);
   }, [id]);
+
+  // Update the browser URL when the active tab changes
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    queryParams.set('tab', activeTab);
+    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
+    window.history.replaceState(null, '', newUrl);
+  }, [activeTab]);
 
   return (
     <div className="tab-layout">

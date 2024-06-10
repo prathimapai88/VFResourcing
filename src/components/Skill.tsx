@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { SKILLS_API_URL } from "../common/constants/apiConstants";
+import { RESOURCES_URL, SKILLS_API_URL } from "../common/constants/apiConstants";
 import useAPI from "../common/utils/useAPI";
 import SkillItem from "./SkillItem";
 import "./../../styles/Skill.scss";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 interface SkillProps {
-  acquiredSkillIds: number[]; // Adjust the type according to your actual data type
+  acquiredSkillIds: number[]; 
 }
 
 interface Skill {
@@ -13,13 +15,35 @@ interface Skill {
   name: string;
 }
 
-
 function Skill(props: SkillProps) {
+  const { id } = useParams();
   const { data: skills, loading } = useAPI(SKILLS_API_URL);
   const [acquiredSkillIds, setAcquiredSkillIds] = useState<number[]>(props.acquiredSkillIds);
-
   const [showAcquired, setShowAcquired] = useState<boolean>(false);
-  const [filteredSkills, setFilteredSkills] = useState<Skill[]>([]); // Adjust the type according to your actual data type
+  const [filteredSkills, setFilteredSkills] = useState<Skill[]>([]); 
+
+  useEffect(()=>{
+    fetchData();
+  },[id])
+
+  const fetchData = async () => {
+    const response = await axios.get(RESOURCES_URL + `/${id}/role-eligibility`);
+    if(response.data){
+      const counts = response.data.map((role) => {
+        const acquiredSkills = role.skillsRequired.filter(
+          (skill) => skill.hasSkill
+        );
+        return { roleName: role.name , acquiredSkills };
+
+      });
+      const allAcquiredSkillIds = counts.flatMap((role) =>
+        role.acquiredSkills.map((skill) => skill.id)
+      );
+      setAcquiredSkillIds(allAcquiredSkillIds);
+    }
+  };
+
+
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
