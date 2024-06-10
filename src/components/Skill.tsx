@@ -5,7 +5,7 @@ import SkillItem from "./SkillItem";
 import "./../../styles/Skill.scss";
 
 interface SkillProps {
-  acquiredSkillIds: string[]; // Adjust the type according to your actual data type
+  acquiredSkillIds: number[]; // Adjust the type according to your actual data type
 }
 
 interface Skill {

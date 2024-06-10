@@ -14,7 +14,7 @@ const SideNav: React.FC = () => {
   const { id }: { id?: string } = useParams(); // Make id optional
 
   useEffect(() => {
-    setSelectedUserId(id || null); // Use null if id is undefined
+    setSelectedUserId(id || null); 
   }, [id]);
 
   const handleUserClick = (userId: string) => {
