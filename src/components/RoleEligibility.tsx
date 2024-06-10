@@ -3,14 +3,42 @@ import { useParams } from "react-router-dom";
 import useAPI from "../common/utils/useAPI";
 import { RESOURCES_URL } from "../common/constants/apiConstants";
 
-function RoleEligibility({ details, setAcquiredSkillIds }) {
-  const { id } = useParams();
+// Define types for the component props
+interface RoleEligibilityProps {
+  details: {
+    name: string;
+  };
+  setAcquiredSkillIds: (ids: number[]) => void;
+}
+
+// Define types for the API response
+interface Skill {
+  id: number;
+  hasSkill: boolean;
+}
+
+interface Role {
+  id: number;
+  name: string;
+  skillsRequired: Skill[];
+}
+
+// Define the component with typed props
+const RoleEligibility: React.FC<RoleEligibilityProps> = ({
+  details,
+  setAcquiredSkillIds,
+}) => {
+  const { id } = useParams<{ id: string }>();
   const {
     data: eligibility,
     loading,
     error,
   } = useAPI(RESOURCES_URL + `/${id}/role-eligibility`);
-  const [skillCounts, setSkillCounts] = useState([]);
+
+  const [skillCounts, setSkillCounts] = useState<
+    { roleName: string; acquiredCount: number; acquiredSkills: Skill[] }[]
+  >([]);
+
   const [totalEligibility, setTotalEligibility] = useState(0);
 
   useEffect(() => {
@@ -23,7 +51,6 @@ function RoleEligibility({ details, setAcquiredSkillIds }) {
         const acquiredCount = acquiredSkills.length;
         if (acquiredCount === role.skillsRequired.length) {
           roleEligibilityCount += 1;
-          
         }
         setTotalEligibility(roleEligibilityCount);
 
@@ -69,6 +96,6 @@ function RoleEligibility({ details, setAcquiredSkillIds }) {
       ))}
     </div>
   );
-}
+};
 
 export default RoleEligibility;
