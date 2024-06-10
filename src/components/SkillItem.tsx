@@ -14,7 +14,7 @@ interface Skill {
 
 interface SkillItemProps {
   skill: Skill;
-  acquiredSkillIds: string[];
+  acquiredSkillIds: number[];
   onUpdate: (id: string, acquired: boolean) => void;
 }
 

@@ -11,15 +11,13 @@ interface SkillProps {
 interface Skill {
   id: string;
   name: string;
-  // Add other relevant fields here
 }
 
 
 function Skill(props: SkillProps) {
   const { data: skills, loading } = useAPI(SKILLS_API_URL);
-  const [acquiredSkillIds, setAcquiredSkillIds] = useState<string[]>(
-    props.acquiredSkillIds
-  );
+  const [acquiredSkillIds, setAcquiredSkillIds] = useState<number[]>(props.acquiredSkillIds);
+
   const [showAcquired, setShowAcquired] = useState<boolean>(false);
   const [filteredSkills, setFilteredSkills] = useState<Skill[]>([]); // Adjust the type according to your actual data type
 
