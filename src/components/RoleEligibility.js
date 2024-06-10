@@ -23,8 +23,10 @@ function RoleEligibility({ details, setAcquiredSkillIds }) {
         const acquiredCount = acquiredSkills.length;
         if (acquiredCount === role.skillsRequired.length) {
           roleEligibilityCount += 1;
-          setTotalEligibility(roleEligibilityCount);
+          
         }
+        setTotalEligibility(roleEligibilityCount);
+
         return { roleName: role.name, acquiredCount, acquiredSkills };
       });
 
