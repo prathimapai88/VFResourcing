@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 import { RESOURCES_URL } from "../common/constants/apiConstants";
+import usePostRequest from "../common/utils/usePostRequest";
+import useDeleteRequest from "../common/utils/useDeleteRequest";
+
 
 interface Skill {
   id: string;
@@ -16,46 +19,29 @@ interface SkillItemProps {
 }
 
 const SkillItem: React.FC<SkillItemProps> = ({ skill, acquiredSkillIds, onUpdate }) => {
-  const [hasError, setHasError] = useState(false);
   const [isAcquired, setIsAcquired] = useState(false);
-  const [loading, setLoading] = useState(false);
   const { id } = useParams();
+  const  [rowErr, setrowErr]= useState(false);
+  const { isLoading, data, postData } = usePostRequest();
+  const { deleteInProgress ,error, deleteData } = useDeleteRequest();
 
   const handleRetry = () => {
-    setHasError(false);
+    setrowErr(true);
     removeSkill();
   };
 
   const addSkill = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.post(`${RESOURCES_URL}/${id}/create-skill`, {
-        id: skill.id,
-      });
-      if (response.status === 200) {
-        setIsAcquired(true);
-        onUpdate(skill.id, true);  // Notify parent of addition
-      }
-    } catch (error) {
-      setHasError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
+    await postData(`${RESOURCES_URL}/${id}/create-skill`, {
+      id: skill.id,
+    });
+    setIsAcquired(true);
+    onUpdate(skill.id, true);  // Notify parent of addition
+   };
 
   const removeSkill = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.delete(`${RESOURCES_URL}/${id}/skill/${skill.id}`);
-      if (response.status === 200) {
-        setIsAcquired(false);
-        onUpdate(skill.id, false); 
-      }
-    } catch (error) {
-      setHasError(true);
-    } finally {
-      setLoading(false);
-    }
+    await deleteData(`${RESOURCES_URL}/${id}/skill/${skill.id}`);
+    setIsAcquired(false);
+    onUpdate(skill.id, false); 
   };
 
   useEffect(() => {
@@ -64,27 +50,27 @@ const SkillItem: React.FC<SkillItemProps> = ({ skill, acquiredSkillIds, onUpdate
   }, [acquiredSkillIds, skill.id]);
 
   return (
-    <div className={`skill-item ${isAcquired ? "active-skill" : ""} ${hasError ? "error" : ""}`}>
+    <div className={`skill-item ${isAcquired ? "active-skill" : ""} ${error || rowErr ? "error" : ""}`}>
       <div className="skill-info">
         <span className="skill-name">{skill.name}</span>
-        <span className={`skill-roles ${isAcquired ? "active-text" : ""}  ${hasError ? "error" : ""}`}>
+        <span className={`skill-roles ${isAcquired ? "active-text" : ""}  ${error || rowErr ? "error" : ""}`}>
           Roles: {skill.requiredForRoles.map((role) => role.name).join(", ")}
         </span>
       </div>
 
-      {hasError ? (
+      {error || rowErr  ? (
         <button onClick={handleRetry} className="button retry">
-          Retry
+          {deleteInProgress ? <span className="inprogress-spinner"></span> : "Retry"}
         </button>
       ) : (
         <>
           {isAcquired ? (
             <button onClick={removeSkill} className="button remove">
-              {loading ? <span className="inprogress-spinner"></span> : "Remove"}
+              {deleteInProgress ? <span className="inprogress-spinner"></span> : "Remove"}
             </button>
           ) : (
             <button onClick={addSkill} className="button add">
-              {loading ? <span className="inprogress-spinner"></span> : "Add"}
+              {isLoading ? <span className="inprogress-spinner"></span> : "Add"}
             </button>
           )}
         </>
