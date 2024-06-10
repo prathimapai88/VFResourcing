@@ -5,10 +5,7 @@ import useAPI from '../common/utils/useAPI';
 import { RESOURCES_URL } from '../common/constants/apiConstants';
 import './../../styles/SideNav.scss';
 
-interface UserData {
-  id: string;
-  name: string;
-}
+
 
 const SideNav: React.FC = () => {
   const { data: userData, loading, error } = useAPI(RESOURCES_URL);

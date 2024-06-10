@@ -8,19 +8,26 @@ interface SkillProps {
   acquiredSkillIds: string[]; // Adjust the type according to your actual data type
 }
 
+interface Skill {
+  id: string;
+  name: string;
+  // Add other relevant fields here
+}
+
+
 function Skill(props: SkillProps) {
-  const { data: skills, loading, error } = useAPI(SKILLS_API_URL);
+  const { data: skills, loading } = useAPI(SKILLS_API_URL);
   const [acquiredSkillIds, setAcquiredSkillIds] = useState<string[]>(
     props.acquiredSkillIds
   );
   const [showAcquired, setShowAcquired] = useState<boolean>(false);
-  const [filteredSkills, setFilteredSkills] = useState<any[]>([]); // Adjust the type according to your actual data type
+  const [filteredSkills, setFilteredSkills] = useState<Skill[]>([]); // Adjust the type according to your actual data type
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const initialShowAcquired = queryParams.get("showAcquired") === "true";
     setShowAcquired(initialShowAcquired); // Set initial value of showAcquired
-    let sortedSkills = [...skills].sort((a, b) => a.name.localeCompare(b.name));
+    const sortedSkills = [...skills].sort((a, b) => a.name.localeCompare(b.name));
     if (initialShowAcquired) {
       setFilteredSkills(
         sortedSkills.filter((skill) => acquiredSkillIds.includes(skill.id))
@@ -35,7 +42,7 @@ function Skill(props: SkillProps) {
     queryParams.set("showAcquired", showAcquired.toString());
     const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
     window.history.replaceState(null, "", newUrl);
-    let sortedSkills = [...skills].sort((a, b) => a.name.localeCompare(b.name));
+    const sortedSkills = [...skills].sort((a, b) => a.name.localeCompare(b.name));
     if (showAcquired) {
       setFilteredSkills(
         sortedSkills.filter((skill) => acquiredSkillIds.includes(skill.id))
@@ -79,8 +86,7 @@ function Skill(props: SkillProps) {
               key={skill.id}
               acquiredSkillIds={acquiredSkillIds}
               skill={skill}
-              onUpdate={handleUpdate} // Pass the update handler
-              onRetry={undefined}            />
+              onUpdate={handleUpdate} />
           ))
         ) : (
           <div className="no-records">No Acquired Skills Available</div>

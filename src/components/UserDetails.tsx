@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import UserIcon from '../common/component/UserIcon';
 import TabsComponent from './TabsComponent';
@@ -6,9 +6,7 @@ import Spinner from '../common/component/Spinner';
 import { RESOURCES_URL } from "../common/constants/apiConstants";
 import useAPI from "../common/utils/useAPI";
 
-interface User {
-  name: string;
-}
+
 
 const UserDetails: React.FC = () => {
   const { id } = useParams();

@@ -10,7 +10,6 @@ interface Skill {
 
 interface SkillItemProps {
   skill: Skill;
-  onRetry: () => void;
   acquiredSkillIds: string[];
   onUpdate: (id: string, acquired: boolean) => void;
 }
