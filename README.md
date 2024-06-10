@@ -9,10 +9,6 @@ The application manages internal resource allocation and skill set assignment, f
 - [@Prathima](https://github.com/prathimapai88)
 
 
-## Demo
-
-Insert gif or link to demo
-
 
 ## Deployment
 
