@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
+import { RESOURCES_URL } from "../common/constants/apiConstants";
 
 interface Skill {
   id: string;
@@ -28,7 +29,7 @@ const SkillItem: React.FC<SkillItemProps> = ({ skill, acquiredSkillIds, onUpdate
   const addSkill = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(`http://localhost:4000/resources/${id}/create-skill`, {
+      const response = await axios.post(`${RESOURCES_URL}/${id}/create-skill`, {
         id: skill.id,
       });
       if (response.status === 200) {
@@ -45,7 +46,7 @@ const SkillItem: React.FC<SkillItemProps> = ({ skill, acquiredSkillIds, onUpdate
   const removeSkill = async () => {
     setLoading(true);
     try {
-      const response = await axios.delete(`http://localhost:4000/resources/${id}/skill/${skill.id}`);
+      const response = await axios.delete(`${RESOURCES_URL}/${id}/skill/${skill.id}`);
       if (response.status === 200) {
         setIsAcquired(false);
         onUpdate(skill.id, false); 
