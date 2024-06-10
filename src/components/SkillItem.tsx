@@ -2,7 +2,20 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 
-const SkillItem = ({ skill, onRetry, acquiredSkillIds, onUpdate }) => {
+interface Skill {
+  id: string;
+  name: string;
+  requiredForRoles: { name: string }[];
+}
+
+interface SkillItemProps {
+  skill: Skill;
+  onRetry: () => void;
+  acquiredSkillIds: string[];
+  onUpdate: (id: string, acquired: boolean) => void;
+}
+
+const SkillItem: React.FC<SkillItemProps> = ({ skill, acquiredSkillIds, onUpdate }) => {
   const [hasError, setHasError] = useState(false);
   const [isAcquired, setIsAcquired] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -12,8 +25,6 @@ const SkillItem = ({ skill, onRetry, acquiredSkillIds, onUpdate }) => {
     setHasError(false);
     removeSkill();
   };
-
-  
 
   const addSkill = async () => {
     setLoading(true);
